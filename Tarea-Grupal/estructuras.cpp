@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <basicas.cpp>
 using namespace std;
 
 struct cliente{
@@ -39,6 +39,27 @@ struct colaAtencion{
     unsigned short nAt;
 };
 
+
+struct producto{
+    string nombre;
+    string codigo;
+    double precio;
+    string categoria;
+};
+struct nodoProducto{
+    producto *dato;
+    nodoProducto *sgte;
+};
+
+struct pilaProductos{
+    unsigned short nProd;
+    nodoProducto *cima;
+ };
+struct listaProductos{
+    nodoProducto *cab;
+    unsigned short nProd;
+};
+
 struct tienda{
     string nombre;
     string rubro;
@@ -47,8 +68,8 @@ struct tienda{
     colaAtencion *cA;
     listaClientes *lC;
     string propietario;
-    pilaProductos *pP;      // en el almacen
-    listaProductos *lP;     // en exhibicion
+    pilaProductos *pP;      //en el almacen
+    listaProductos *lP;      //en exhibicion
 };
 
 struct nodoTienda{
@@ -72,7 +93,7 @@ struct informacion{
 
 struct centroComercial{
     informacion *info;
-    listaTienda *lT;
+    listaTienda *list;
 };
 
 
