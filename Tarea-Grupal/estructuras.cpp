@@ -74,7 +74,6 @@ struct tienda{
 
 struct nodoTienda{
     nodoTienda *sgte;
-    nodoTienda *ant;
     tienda *info;
 };
 

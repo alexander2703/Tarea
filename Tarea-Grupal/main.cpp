@@ -4,10 +4,9 @@ using namespace std;
 
 void inicializar (centroComercial *cen){
     cen->info = NULL;
-}
-void inicializar1(listaTienda *list){
-    list->cab = NULL;
-    list->nTiendas = 0;
+    cen->list = new listaTienda();
+    cen->list->cab = NULL;
+    cen->list->nTiendas = 0;
 }
 void leerCentroComercia(informacion *inf){
     system("cls");
@@ -21,6 +20,11 @@ void leerCentroComercia(informacion *inf){
 void registrarCc( centroComercial *cen ){
     informacion *inf = new informacion();
     leerCentroComercia( inf );
+}
+void incializarTienda( tienda *tien){
+    tien->lP = new listaProductos();
+    tien->lP->cab = NULL;
+    tien->lP->nProd = 0;
 }
 void leerTienda(tienda *tien){
     system("cls");
@@ -49,6 +53,7 @@ void insertarTienda( listaTienda *list, tienda *tien ){
 }
 void registrarTienda( listaTienda*list){
     tienda *tien = new tienda();
+    incializarTienda(tien);
     leerTienda( tien );
     insertarTienda(list,tien);
 }
@@ -59,6 +64,72 @@ void mostrarTienda( tienda *tien, unsigned short pos){
     gotoxy(45, pos ); cout << tien->ruc;
     gotoxy(60, pos ); cout << tien->web;
     gotoxy(65, pos ); cout << tien->propietario;
+}
+
+nodoTienda *mostrartiendas (listaTienda *list){
+    int valor;
+    unsigned short numero=1;
+    gotoxy (5,3);cout<<"LISTA TIENDAS";
+    gotoxy (5, 4);cout<<"************";
+    nodoTienda *aux = list->cab;
+    while ( aux ){
+        gotoxy (5, 4 + numero); cout<< numero << "." << aux->info->nombre;
+        numero++;
+        aux = aux->sgte;
+    }
+    do{
+        gotoxy (5,4+ numero); cout<<"elija una opcion";
+        cin>> valor;
+    }while (!(valor >0 && valor < list->nTiendas + 1));
+        aux = list->cab;
+    for (int y=0 ; y< valor -1 ; y++){
+        aux = aux->sgte;
+    }
+    return aux;
+}
+void inicializarProducto(producto *pro){
+    pro->precio = 0;
+}
+void leerProducto (producto *pro){
+    system("cls");
+    gotoxy( 35, 3);cout << " .:: Producto ::. ";
+    gotoxy( 35, 4);pro->nombre= leerTexto("Nombre: ");
+    gotoxy( 35, 5);pro->codigo = leerTexto("Codigo: ");
+    gotoxy( 35, 6);pro->precio= leerDouble("Precio: ");
+    gotoxy( 35, 7);pro->categoria = leerTexto("Categoria: ");
+ }
+void insertarProducto (listaProductos *lp, producto *pro){
+    nodoProducto *aux = new (struct nodoProducto);
+    nodoProducto *temp = new (struct nodoProducto);
+    temp->dato = pro;
+    temp->sgte = NULL;
+    if (lp->cab==NULL)
+           lp->cab = temp;
+       else{
+           aux=lp->cab;
+           while(aux->sgte !=NULL){
+               aux=aux->sgte;
+           }
+           aux->sgte=temp;
+       }
+       lp->nProd++;
+}
+nodoTienda *elegirTienda (listaTienda *list){
+    nodoTienda *aux = mostrartiendas(list);
+    producto *pro = new producto();
+      inicializarProducto(pro);
+      leerProducto( pro );
+      insertarProducto( aux->info->lP,pro );
+}
+void registrarProducto (listaTienda *list){
+    system ("cls");
+    if (list->nTiendas !=0){
+        nodoTienda *tien = elegirTienda(list);
+    }
+    else{
+        gotoxy (40,10); cout<< "Debes ingresar primero Tiendas";
+    }
+    Sleep (5000);
 }
 void listarTienda( listaTienda *list ){
     nodoTienda *aux = list->cab;
@@ -100,94 +171,23 @@ void buscarTienda( listaTienda *list ){
     }
     Sleep(4000);
 }
-nodoTienda *mostrartiendas (listaTienda *list){
-    int valor;
-    unsigned short numero=1;
-    gotoxy (5,3);cout<<"LISTA TIENDAS";
-    gotoxy (5, 4);cout<<"************";
-    nodoTienda *aux = list->cab;
-    while ( aux ){
-        gotoxy (5, 4 + numero); cout<< numero << "." << aux->info->nombre;
-        numero++;
-        aux = aux->sgte;
-    }
-    do{
-        gotoxy (5,4+ numero); cout<<"elija una opcion";
-        cin>> valor;
-    }while (!(valor >0 && valor < list->nTiendas + 1));
-        aux = list->cab;
-    for (int y=0 ; y< valor -1 ; y++){
-        aux = aux->sgte;
-    }
-    return aux;
-}
-void inicializarlP (listaProductos *lP){
-    lP->cab = NULL;
-    lP->nProd = 0;
-}
-void inicializarProducto(producto *pro){
-    pro->precio = 0;
-}
-void leerProducto (producto *pro){
-    system("cls");
-    gotoxy( 35, 3);cout << " .:: Producto ::. ";
-    gotoxy( 35, 4);pro->nombre= leerTexto("Nombre: ");
-    gotoxy( 35, 5);pro->codigo = leerTexto("Codigo: ");
-    gotoxy( 35, 6);pro->precio= leerDouble("Precio: ");
-    gotoxy( 35, 7);pro->categoria = leerTexto("Categoria: ");
- }
-void insertarProducto (listaProductos *lP, producto *pro){
-    nodoProducto *aux = new (struct nodoProducto);
-    nodoProducto *temp = new (struct nodoProducto);
-    temp->dato = pro;
-    temp->sgte = NULL;
-    if (lP->cab==NULL)
-           lP->cab = temp;
-       else{
-           aux=lP->cab;
-           while(aux->sgte !=NULL){
-               aux=aux->sgte;
-           }
-           aux->sgte=temp;mostrartiendas;
-       }
-       lP->nProd++;
-}
-nodoTienda *elegirTienda (listaTienda *list){
-    nodoTienda *aux = mostrartiendas(list);
-    producto *pro = new producto();
-      inicializarProducto(pro);
-      leerProducto( pro );
-      insertarProducto( aux->info->lP,pro );
-}
-void registrarProducto (listaTienda *list){
-    system ("cls");
-    if (list->nTiendas !=0){
-        nodoTienda *tien = elegirTienda(list);
-    }
-    else{
-        gotoxy (40,10); cout<< "Debes ingresar primero Tiendas";
-    }
-    Sleep (5000);
-}
-
 int main()
 {
 
     unsigned short opc;
-    listaTienda *list = new listaTienda();
-    listaProductos *lP = new listaProductos();
 
-    inicializar1(list);
-     centroComercial *cen = new centroComercial();
-       inicializar(cen);
+    centroComercial *cen = new centroComercial();
+    inicializar(cen);
+
+
         do{
             opc = menu();
             switch ( opc ){
             case 1: registrarCc(cen);  break;//Registrar los datos del centro comercial
-            case 2: registrarTienda(list); break;
-            case 3:registrarProducto(list); break;
-            case 6: listarTienda(list); break;
-            case 8: buscarTienda(list); break;
+            case 2: registrarTienda(cen->list); break;
+            case 3:registrarProducto(cen->list); break;
+            case 6: listarTienda(cen->list); break;
+            case 8: buscarTienda(cen->list); break;
             case 5:  break;
             }
         }while(!( opc == 11 ));
