@@ -56,7 +56,7 @@ unsigned short leerEntero(string mensaje){
     }while (!(valor<10000000));
     return valor;
 }
-unsigned short leerDouble(string mensaje){
+double leerDouble(string mensaje){
     double valor;
     do{
        cout<<mensaje;
@@ -65,7 +65,15 @@ unsigned short leerDouble(string mensaje){
     }while (!(valor>0));
     return valor;
 }
+float leerDNI(string mensaje){
+    float valor;
+    do{
+       cout<<mensaje;
+       cin>>valor;
 
+    }while (!(valor>9999999 || valor<100000000));
+    return valor;
+}
 void encabezado(){
     system ("cls");
     gotoxy (20,3); cout<<"codigo";
