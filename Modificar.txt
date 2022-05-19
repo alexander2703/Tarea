@@ -1,0 +1,86 @@
+/*nodoCliente *elegirCliente (listaTienda *list){
+    nodoCliente *aux = mostrarCliente(list->cab->info->lC);
+    atencion *At = new atencion();
+      leeratencion(At);
+      encolar(aux->cli,At);
+}
+void registraratencion (listaTienda *list){
+    system ("cls");
+    if (list->cab->info->lC->nclie !=0){
+        nodoCliente *At = elegirCliente(list);
+    }
+    else{
+        gotoxy (40,10); cout<< "Debes ingresar primero Clientes";
+    }
+    Sleep (5000);
+}
+*/
+/*
+void desencolar (colaAtencion *colaA){
+    atencion *At  = new atencion();
+     nodoAtencion*aux = new nodoAtencion();
+     aux= colaA->delante;
+     At=aux->info;
+     colaA->delante=colaA->delante->sgte;
+     if (colaA->delante==NULL)
+         colaA->atras= NULL;
+        colaA->nAt--;
+        mostraratencion (At,0);
+     delete aux;
+     Sleep (4000);
+}
+
+void eliminaratencion (colaAtencion *colaA){
+    system ("cls");
+    if (colaA->delante ==NULL){
+        gotoxy (40, 5); cout<<"no hay atencion registradas";
+        }else{
+          desencolar (colaA);
+        }
+}
+
+void listaratencion( colaAtencion *colaA){
+    system ("cls");
+
+    if ( colaA->nAt == 0 ){
+       cout << "Debes registrar la atencion";
+    }
+    else{
+        nodoAtencion*aux = colaA->delante;
+        unsigned short pos = 1;
+        encabezadoAten();
+        while( aux  ){
+            mostraratencion( aux->info, pos  );
+            pos++;
+            aux = aux->sgte;
+        }
+    }
+    cout<<endl;
+    Sleep(4000);
+}
+
+void buscaratencion(colaAtencion *colaA){
+    system ("cls");
+    bool sw=true;
+    if (colaA->delante !=NULL){
+        string codigoBuscar;
+        nodoAtencion *aux = colaA->delante;
+        gotoxy(35,3); codigoBuscar = leerTexto("Ingrese el codigo a buscar: ");
+        while ( aux ){
+            if (aux->info->nroTicket== codigoBuscar){
+                mostraratencion (aux->info , 0);
+                sw=false;
+                break;
+            }
+            aux= aux->sgte;
+        }
+        if (sw==true){
+            gotoxy (40,5); cout<<"El numero de tikect"<<codigoBuscar<<"no se encuentra ";
+        }
+    }
+    else{
+        gotoxy (40,5); cout<< "No hay atencion registrada";
+    }
+    Sleep(4000);
+}
+*/
