@@ -140,6 +140,9 @@ void registrarProducto (listaTienda *list){
 }
 
 // Resgistrar Datos del Cliente (Narumi Cabrera)
+void inicializarCL(cliente *cl){
+    cl->dni=0;
+}
 void leercliente(cliente *cl){
     system ("cls");
 
@@ -174,6 +177,7 @@ void insertarcliente( listaClientes *lC, cliente*cl ){
 nodoTienda *elegirTiendas (listaTienda *list){
     nodoTienda *aux = mostrartiendas(list);
     cliente *cl = new cliente();
+      inicializarCL(cl);
       leercliente( cl );
       insertarcliente( aux->info->lC,cl );
 }
@@ -189,36 +193,11 @@ void registrarCliente (listaTienda *list){
 }
 
 
-void mostrarcliente (cliente*cl , unsigned short posi){
-       gotoxy(20, posi ); cout <<cl->nombres;
-       gotoxy(35, posi ); cout <<cl->apellidos;
-       gotoxy(50, posi ); cout <<cl->dni;
-       gotoxy(65, posi ); cout <<cl->genero;
-       gotoxy(80, posi ); cout <<cl->consulta;
-
-}
-
-void listarcliente( listaClientes *lC ){
-    nodoCliente *aux = lC->cab;
-    unsigned short posi = 4;
-    encabezado();
-    if ( lC->nclie == 0 ){
-        cout << "Debes registrar el cliente";
-    }
-    else{
-        while( aux != NULL ){
-         mostrarcliente(aux->cli, posi);
-            posi++;
-            aux = aux->sgte;
-        }
-    }
-    Sleep( 4000 );
-}
 
 nodoCliente *mostrarCliente (listaClientes *lC){
     int valor;
     unsigned short numero=1;
-    gotoxy (5,3);cout<<"LISTA Clientes";
+    gotoxy (5,3);cout<<"LISTA CLIENTES";
     gotoxy (5, 4);cout<<"************";
     nodoCliente *aux = lC->cab;
     while ( aux ){
@@ -250,7 +229,7 @@ void leeratencion(atencion *At){
 }
 void encolar (colaAtencion *colaA ,atencion *At){
     nodoAtencion *aux = new nodoAtencion();
-    aux->info = At;
+    aux->ate = At;
     aux->sgte = NULL;
     if (colaA->delante == NULL) //es el primer elemento
         colaA->delante= aux;
@@ -259,25 +238,6 @@ void encolar (colaAtencion *colaA ,atencion *At){
     colaA->atras = aux;
     colaA->nAt++;
 }
-/*
-nodoCliente *elegirCliente (listaTienda *list){
-    nodoCliente *aux = mostrarCliente(list->cab->info->lC);
-    atencion *At = new atencion();
-      leeratencion(At);
-      encolar(,list->cab->info->cA->delante->info  );
-}
-void registraratencion (listaTienda *list){
-    system ("cls");
-    if (list->cab->info->lC->nclie !=0){
-        nodoCliente *l = elegirCliente(list->cab->info->lC);
-    }
-    else{
-        gotoxy (40,10); cout<< "Debes ingresar primero Clientes";
-    }
-    Sleep (5000);
-}
-
-*/
 void mostraratencion (atencion *At , int x){
     gotoxy (20, 5 + x); cout<<At->nombreCliente;
     gotoxy (40, 5 + x); cout<<At->apellidosCliente;
@@ -285,83 +245,13 @@ void mostraratencion (atencion *At , int x){
     gotoxy (75, 5 + x);cout<<At->fecha;
     gotoxy (85, 5 + x); cout<<At->nroTicket;
 }
-/*
-void desencolar (colaAtencion *colaA){
-    atencion *At  = new atencion();
-     nodoAtencion*aux = new nodoAtencion();
-     aux= colaA->delante;
-     At=aux->info;
-     colaA->delante=colaA->delante->sgte;
-     if (colaA->delante==NULL)
-         colaA->atras= NULL;
-        colaA->nAt--;
-        mostraratencion (At,0);
-     delete aux;
-     Sleep (4000);
-}
-
-void eliminaratencion (colaAtencion *colaA){
-    system ("cls");
-    if (colaA->delante ==NULL){
-        gotoxy (40, 5); cout<<"no hay atencion registradas";
-        }else{
-          desencolar (colaA);
-        }
-}
-
-void listaratencion( colaAtencion *colaA){
-    system ("cls");
-
-    if ( colaA->nAt == 0 ){
-       cout << "Debes registrar la atencion";
-    }
-    else{
-        nodoAtencion*aux = colaA->delante;
-        unsigned short pos = 1;
-        encabezadoAten();
-        while( aux  ){
-            mostraratencion( aux->info, pos  );
-            pos++;
-            aux = aux->sgte;
-        }
-    }
-    cout<<endl;
-    Sleep(4000);
-}
-
-void buscaratencion(colaAtencion *colaA){
-    system ("cls");
-    bool sw=true;
-    if (colaA->delante !=NULL){
-        string codigoBuscar;
-        nodoAtencion *aux = colaA->delante;
-        gotoxy(35,3); codigoBuscar = leerTexto("Ingrese el codigo a buscar: ");
-        while ( aux ){
-            if (aux->info->nroTicket== codigoBuscar){
-                mostraratencion (aux->info , 0);
-                sw=false;
-                break;
-            }
-            aux= aux->sgte;
-        }
-        if (sw==true){
-            gotoxy (40,5); cout<<"El numero de tikect"<<codigoBuscar<<"no se encuentra ";
-        }
-    }
-    else{
-        gotoxy (40,5); cout<< "No hay atencion registrada";
-    }
-    Sleep(4000);
-}
-*/
-
-// Registrar los productos de teienda en el alamacen (Narumi Cabrera)
+// Registrar los productos de tienda en el almacen (Narumi Cabrera)
 
 nodoTienda *mostrarTiendaAlmacen(listaTienda *list){
     int valor;
     unsigned short numero=1;
-    gotoxy (5,3);cout<<"LISTA Tiendas";
-    gotoxy (5, 4);cout<<"************";
+    gotoxy (5,3);cout<<"LISTA TIENDAS";
+    gotoxy (5,4);cout<<"************";
     nodoTienda *aux = list->cab;
     while ( aux ){
         gotoxy (5, 4 + numero); cout<< numero << "." << aux->info->nombre<<" ";
@@ -442,10 +332,6 @@ void listarproductoAlmacen( pilaProductos  *pP ){
     Sleep( 4000 );
 }
 
-
-
-
-
 // Listar Tienda con su propietario(Jesus Cruz)
 void mostrarTienda( tienda *tien, unsigned short pos){
     gotoxy(20, pos ); cout << tien->nombre;
@@ -469,6 +355,49 @@ void listarTienda( listaTienda *list ){
         }
     }
     Sleep( 4000 );
+}
+//Listar Clientes por Tienda (Jesus Cruz)
+void mostrarcliente (cliente*cl , unsigned short posi){
+       gotoxy(20, posi ); cout <<cl->nombres;
+       gotoxy(35, posi ); cout <<cl->apellidos;
+       gotoxy(50, posi ); cout <<cl->dni;
+       gotoxy(65, posi ); cout <<cl->genero;
+       gotoxy(80, posi ); cout <<cl->consulta;
+
+}
+void listarcliente( listaClientes *lC ){
+    nodoCliente *aux = lC->cab;
+    unsigned short posi = 4;
+    encabezadocl();
+    if ( lC->nclie == 0 ){
+        cout << "Debes registrar el cliente";
+    }
+    else{
+        while( aux != NULL ){
+         mostrarcliente(aux->cli, posi);
+            posi++;
+            aux = aux->sgte;
+        }
+    }
+    Sleep( 4000 );
+}
+
+nodoTienda *elegirTiendaCl (listaTienda *list){
+    nodoTienda *aux = mostrartiendas(list);
+    producto *cl = new producto();
+    mostrarcliente(aux->info->lC->cab->cli,4);
+    listarcliente(aux->info->lC);
+
+}
+void listarCl (listaTienda *list){
+    system ("cls");
+    if (list->nTiendas !=0){
+        nodoTienda *tien = elegirTiendaCl(list);
+    }
+    else{
+        gotoxy (40,10); cout<< "Debes ingresar primero Tiendas";
+    }
+    Sleep (5000);
 }
 // Buscar Tienda por Nombre(Jesus Cruz)
 void buscarTienda( listaTienda *list ){
@@ -514,19 +443,18 @@ int main()
             case 3: registrarProducto(cen->list); break;
             case 4:
                 do{
-                  opc = menu1();
+                  opc1 = menu1();
                   switch ( opc1 ){
                   case 1: registrarCliente(cen->list);break;
                   case 2:break;
-                  case 3:
-                      menu();break;
+
                   }
-              }while(!( opc == 3 ));  break;
+              }while(!( opc1 == 3 ));  break;
             case 5: registrarproductoAlmacen(cen->list); break;
-                // listarcliente(cen->list->cab->info->lC);
             case 6: listarTienda(cen->list); break;
-            //case 7: registraratencion(cen->list->cab->info->lC); break;
+            case 7: listarCl(cen->list); break;
             case 8: buscarTienda(cen->list); break;
+
 
             }
         }while(!( opc == 11 ));

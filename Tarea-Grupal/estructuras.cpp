@@ -5,7 +5,7 @@ using namespace std;
 struct cliente{
     string nombres;
     string apellidos;
-    string dni;
+    int dni;
     string genero;
     string consulta;
 };
@@ -29,7 +29,7 @@ struct atencion{
 };
 
 struct nodoAtencion{
-    atencion *info;
+    atencion *ate;
     nodoAtencion *sgte;
 };
 
