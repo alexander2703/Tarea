@@ -8,6 +8,8 @@ void inicializar (centroComercial *cen){
     cen->list->cab = NULL;
     cen->list->nTiendas = 0;
 }
+
+// Registrar Centro Coemcial (Alexander Valverde)
 void leerCentroComercia(informacion *inf){
     system("cls");
     gotoxy( 35, 3);cout << " .:: Centro Comercial ::. ";
@@ -21,6 +23,8 @@ void registrarCc( centroComercial *cen ){
     informacion *inf = new informacion();
     leerCentroComercia( inf );
 }
+
+// Registar Tiendas(Alexander Valverde)
 void incializarTienda( tienda *tien){
     tien->lP = new listaProductos();
     tien->lP->cab = NULL;
@@ -32,6 +36,9 @@ void incializarTienda( tienda *tien){
     tien->cA->delante = NULL;
     tien->cA->atras = NULL;
     tien->cA->nAt = 0;
+    tien->pP = new pilaProductos();
+    tien->pP->cima = NULL;
+    tien->pP->nProd = 0;
 }
 void leerTienda(tienda *tien){
     system("cls");
@@ -65,14 +72,7 @@ void registrarTienda( listaTienda*list){
     insertarTienda(list,tien);
 }
 
-void mostrarTienda( tienda *tien, unsigned short pos){
-    gotoxy(20, pos ); cout << tien->nombre;
-    gotoxy(30, pos ); cout << tien->rubro;
-    gotoxy(45, pos ); cout << tien->ruc;
-    gotoxy(60, pos ); cout << tien->web;
-    gotoxy(65, pos ); cout << tien->propietario;
-}
-
+// Registrar Producto en Tienda exhibicion (Alexander Valverde)
 nodoTienda *mostrartiendas (listaTienda *list){
     int valor;
     unsigned short numero=1;
@@ -139,8 +139,7 @@ void registrarProducto (listaTienda *list){
     Sleep (5000);
 }
 
-
-
+// Resgistrar Datos del Cliente (Narumi Cabrera)
 void leercliente(cliente *cl){
     system ("cls");
 
@@ -198,7 +197,7 @@ void mostrarcliente (cliente*cl , unsigned short posi){
        gotoxy(80, posi ); cout <<cl->consulta;
 
 }
-// falata poner opcion de listar en tiendas
+
 void listarcliente( listaClientes *lC ){
     nodoCliente *aux = lC->cab;
     unsigned short posi = 4;
@@ -260,12 +259,12 @@ void encolar (colaAtencion *colaA ,atencion *At){
     colaA->atras = aux;
     colaA->nAt++;
 }
-/* falta arreglar
+/*
 nodoCliente *elegirCliente (listaTienda *list){
     nodoCliente *aux = mostrarCliente(list->cab->info->lC);
-    cliente *cl = new cliente();
-      leeratencion( list->cab->info->cA->delante->info );
-      encolar( list->cab->info->cA ,list->cab->info->cA->delante->info  );
+    atencion *At = new atencion();
+      leeratencion(At);
+      encolar(,list->cab->info->cA->delante->info  );
 }
 void registraratencion (listaTienda *list){
     system ("cls");
@@ -356,6 +355,105 @@ void buscaratencion(colaAtencion *colaA){
 }
 */
 
+// Registrar los productos de teienda en el alamacen (Narumi Cabrera)
+
+nodoTienda *mostrarTiendaAlmacen(listaTienda *list){
+    int valor;
+    unsigned short numero=1;
+    gotoxy (5,3);cout<<"LISTA Tiendas";
+    gotoxy (5, 4);cout<<"************";
+    nodoTienda *aux = list->cab;
+    while ( aux ){
+        gotoxy (5, 4 + numero); cout<< numero << "." << aux->info->nombre<<" ";
+        numero++;
+        aux = aux->sgte;
+    }
+    do{
+        gotoxy (6,4+ numero); cout<<"elija una opcion: ";
+        cin>> valor;
+    }while (!(valor >0 && valor < list->nTiendas + 1));
+        aux = list->cab;
+    for (int y=0 ; y< valor -1 ; y++){
+        aux = aux->sgte;
+    }
+    return aux;
+}
+void inicializarproductoAlmacen(producto *pro){
+    pro->precio=0;
+}
+
+void leerproductoAlmacen(producto *pro){
+    system ("cls");
+    gotoxy(35,4); cout<< "Producto de almacen";
+    gotoxy(35,5); pro->codigo=leerTexto("Ingrese Codigo:");
+    gotoxy(35,6); pro->categoria=leerEntero("Ingrese categoria:");
+    gotoxy(35,7); pro->nombre=leerTexto("Ingrese nombre:");
+    gotoxy(35,8); pro->precio=leerEntero("Ingrese precio:");
+}
+void push( pilaProductos *pP, producto *pro){
+    nodoProducto *aux = new nodoProducto();
+    aux->dato = pro;
+    aux->sgte = pP->cima;
+    pP->cima = aux;
+    pP->nProd++;
+}
+nodoTienda *elegirTiendaAlmacen (listaTienda *list){
+    nodoTienda *aux = mostrartiendas(list);
+    producto *pro = new producto();
+      inicializarProducto(pro);
+      leerProducto( pro );
+      push( aux->info->pP,pro );
+}
+void registrarproductoAlmacen (listaTienda *list){
+    system ("cls");
+    if (list->nTiendas !=0){
+        nodoTienda *tien = elegirTiendaAlmacen(list);
+    }
+    else{
+        gotoxy (40,10); cout<< "Debes ingresar primero Tiendas";
+    }
+    Sleep (5000);
+}
+
+
+
+void mostrarproductoAlmacen(producto *pro, int x){
+    gotoxy (20, 5 + x);cout<<pro->codigo;
+    gotoxy (30, 5 + x);cout<<pro->nombre;
+    gotoxy (40, 5 + x);cout<<pro->categoria;
+    gotoxy (50, 5 + x);cout<<pro->precio;
+
+}
+
+void listarproductoAlmacen( pilaProductos  *pP ){
+    nodoProducto *aux = pP->cima;
+    unsigned short pos = 4;
+    encabezado();
+    if ( pP->nProd == 0 ){
+        cout << "Debes registrar productos";
+    }
+    else{
+        while( aux != NULL ){
+            mostrarproductoAlmacen( aux->dato, pos  );
+            pos++;
+            aux = aux->sgte;
+        }
+    }
+    Sleep( 4000 );
+}
+
+
+
+
+
+// Listar Tienda con su propietario(Jesus Cruz)
+void mostrarTienda( tienda *tien, unsigned short pos){
+    gotoxy(20, pos ); cout << tien->nombre;
+    gotoxy(34, pos ); cout << tien->rubro;
+    gotoxy(45, pos ); cout << tien->ruc;
+    gotoxy(60, pos ); cout << tien->web;
+    gotoxy(75, pos ); cout << tien->propietario;
+}
 void listarTienda( listaTienda *list ){
     nodoTienda *aux = list->cab;
     unsigned short pos = 4;
@@ -372,6 +470,7 @@ void listarTienda( listaTienda *list ){
     }
     Sleep( 4000 );
 }
+// Buscar Tienda por Nombre(Jesus Cruz)
 void buscarTienda( listaTienda *list ){
     system("cls");
     bool sw = true;
@@ -381,6 +480,8 @@ void buscarTienda( listaTienda *list ){
         gotoxy(35, 3) ; nombre = leerTexto("Ingrese el nombre: "); //L0003
         while( aux ){
             if ( aux->info->nombre == nombre ){
+                system("cls");
+                encabezado();
                 mostrarTienda( aux->info,4 );
                 sw = false;
                 break;
@@ -400,7 +501,7 @@ int main()
 {
 
     unsigned short opc;
-
+    unsigned short opc1;
     centroComercial *cen = new centroComercial();
     inicializar(cen);
 
@@ -411,10 +512,20 @@ int main()
             case 1: registrarCc(cen);  break;//Registrar los datos del centro comercial
             case 2: registrarTienda(cen->list); break;
             case 3: registrarProducto(cen->list); break;
-            case 4: registrarCliente(cen->list); break;
-            case 5: listarcliente(cen->list->cab->info->lC); break;
+            case 4:
+                do{
+                  opc = menu1();
+                  switch ( opc1 ){
+                  case 1: registrarCliente(cen->list);break;
+                  case 2:break;
+                  case 3:
+                      menu();break;
+                  }
+              }while(!( opc == 3 ));  break;
+            case 5: registrarproductoAlmacen(cen->list); break;
+                // listarcliente(cen->list->cab->info->lC);
             case 6: listarTienda(cen->list); break;
-            case 7: registraratencion(cen->list->cab->info->lC); break;
+            //case 7: registraratencion(cen->list->cab->info->lC); break;
             case 8: buscarTienda(cen->list); break;
 
             }

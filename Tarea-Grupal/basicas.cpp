@@ -35,6 +35,20 @@ unsigned short menu(){
     }while (!(opc>0 && opc<12));
     return opc;
 }
+unsigned short menu1(){
+    unsigned short opc1;
+    do{
+    system ("cls");
+     gotoxy(40,3);cout<<"MENU DE OPCIONES";
+     gotoxy(40,4);cout<<"******";
+     gotoxy(40,5);cout<<"1.Registrar datos del cliente ";
+     gotoxy(40,6);cout<<"2.Registrar numero de ticket a cada cliente ";
+     gotoxy(40,7);cout<<"3. Volver al menu principal";
+     gotoxy(40,8);cout<<"Elija Opcion:";
+     cin>> opc1;
+    }while (!(opc1>0 && opc1<4));
+    return opc1;
+}
 
 
 string leerTexto ( string mensaje){
@@ -76,11 +90,9 @@ float leerDNI(string mensaje){
 }
 void encabezado(){
     system ("cls");
-    gotoxy (20,3); cout<<"codigo";
-    gotoxy (35,3); cout<<"marca";
-    gotoxy (48,3); cout<<"modelo";
-    gotoxy (60,3); cout<<"placa";
-    gotoxy (70,3); cout<<"precio";
-    gotoxy (80,3); cout<<"propietario";
-
+    gotoxy (20,3); cout<<"Nombre";
+    gotoxy (35,3); cout<<"Rubro";
+    gotoxy (48,3); cout<<"Ruc";
+    gotoxy (64,3); cout<<"Web";
+    gotoxy (75,3); cout<<"Propietario";
 }
