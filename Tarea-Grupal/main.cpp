@@ -25,20 +25,28 @@ void registrarCc( centroComercial *cen ){
 }
 
 // Registar Tiendas(Alexander Valverde)
-void incializarTienda( tienda *tien){
-    tien->lP = new listaProductos();
-    tien->lP->cab = NULL;
-    tien->lP->nProd = 0;
-    tien->lC = new listaClientes();
-    tien->lC->cab = NULL;
-    tien->lC->nclie = 0;
-    tien->cA = new colaAtencion();
-    tien->cA->delante = NULL;
-    tien->cA->atras = NULL;
-    tien->cA->nAt = 0;
+void inicializarlP(listaProductos *lP){
+    lP = new listaProductos();
+    lP->cab = NULL;
+    lP->nProd = 0;
+}
+void inicializarcA(colaAtencion *cA){
+    cA = new colaAtencion();
+    cA->delante = NULL;
+    cA->atras = NULL;
+    cA->nAt = 0;
+}
+void inicializarpP(pilaProductos *pP){
     tien->pP = new pilaProductos();
     tien->pP->cima = NULL;
     tien->pP->nProd = 0;
+}
+
+
+void incializarTienda( tienda *tien){
+   inicializarlP(tien->lP);
+   inicializarcA(tien->cA);
+   inicializarpP(tien->pP);
 }
 void leerTienda(tienda *tien){
     system("cls");
@@ -123,15 +131,17 @@ void insertarProducto (listaProductos *lp, producto *pro){
 }
 nodoTienda *elegirTienda (listaTienda *list){
     nodoTienda *aux = mostrartiendas(list);
-    producto *pro = new producto();
-      inicializarProducto(pro);
-      leerProducto( pro );
-      insertarProducto( aux->info->lP,pro );
+    return aux;
 }
 void registrarProducto (listaTienda *list){
     system ("cls");
     if (list->nTiendas !=0){
         nodoTienda *tien = elegirTienda(list);
+        producto *pro = new producto();
+          inicializarProducto(pro);
+          leerProducto( pro );
+          insertarProducto( tien->info->lP,pro );
+
     }
     else{
         gotoxy (40,10); cout<< "Debes ingresar primero Tiendas";
@@ -176,15 +186,16 @@ void insertarcliente( listaClientes *lC, cliente*cl ){
 }
 nodoTienda *elegirTiendas (listaTienda *list){
     nodoTienda *aux = mostrartiendas(list);
-    cliente *cl = new cliente();
-      inicializarCL(cl);
-      leercliente( cl );
-      insertarcliente( aux->info->lC,cl );
+    return aux;
 }
 void registrarCliente (listaTienda *list){
     system ("cls");
     if (list->nTiendas !=0){
         nodoTienda *tien = elegirTiendas(list);
+        cliente *cl = new cliente();
+        inicializarCL(cl);
+        leercliente( cl );
+        insertarcliente( tien->info->lC,cl );
     }
     else{
         gotoxy (40,10); cout<< "Debes ingresar primero Tiendas";
@@ -433,12 +444,12 @@ int main()
     unsigned short opc1;
     centroComercial *cen = new centroComercial();
     inicializar(cen);
-
+    registrarCc(cen); //Registrar los datos del centro comercial
 
         do{
             opc = menu();
             switch ( opc ){
-            case 1: registrarCc(cen);  break;//Registrar los datos del centro comercial
+
             case 2: registrarTienda(cen->list); break;
             case 3: registrarProducto(cen->list); break;
             case 4:
@@ -462,4 +473,3 @@ int main()
 
     return 0;
 }
-

@@ -24,7 +24,7 @@ struct atencion{
     string nroTicket;
     string nombreCliente;
     string apellidosCliente;
-    string dni;
+    int dni;
     string fecha;
 };
 
@@ -93,6 +93,9 @@ struct informacion{
 struct centroComercial{
     informacion *info;
     listaTienda *list;
+
 };
+
+
 
 
