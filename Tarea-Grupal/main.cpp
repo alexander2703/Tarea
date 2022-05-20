@@ -37,9 +37,9 @@ void inicializarcA(colaAtencion *cA){
     cA->nAt = 0;
 }
 void inicializarpP(pilaProductos *pP){
-    tien->pP = new pilaProductos();
-    tien->pP->cima = NULL;
-    tien->pP->nProd = 0;
+    pP = new pilaProductos();
+    pP->cima = NULL;
+    pP->nProd = 0;
 }
 
 
