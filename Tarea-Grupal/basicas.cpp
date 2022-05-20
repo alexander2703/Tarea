@@ -16,8 +16,8 @@ unsigned short menu(){
     unsigned short opc;
     do{
     system ("cls");
-     gotoxy(40,3);cout<<"MENU DE OPCIONES";
-     gotoxy(40,4);cout<<"******";
+     gotoxy(40,4);cout<<"MENU DE OPCIONES";
+     gotoxy(40,5);cout<<"******";
      gotoxy(40,6);cout<<"1.Registrar datos de tienda ";
      gotoxy(40,7);cout<<"2.Registrar datos de productos de tienda";
      gotoxy(40,8);cout<<"3.Registrar datos de cliente";
@@ -34,22 +34,6 @@ unsigned short menu(){
     }while (!(opc>0 && opc<11));
     return opc;
 }
-unsigned short menu1(){
-    unsigned short opc1;
-    do{
-    system ("cls");
-     gotoxy(40,3);cout<<"MENU DE OPCIONES";
-     gotoxy(40,4);cout<<"******";
-     gotoxy(40,5);cout<<"1.Registrar datos del cliente ";
-     gotoxy(40,6);cout<<"2.Generar ticket de orden de atencion "; //falta hacer
-     gotoxy(40,7);cout<<"3.Volver al menu principal";
-     gotoxy(40,8);cout<<"Elija Opcion:";
-     cin>> opc1;
-    }while (!(opc1>0 && opc1<4));
-    return opc1;
-}
-
-
 string leerTexto ( string mensaje){
     string valor;
     do{

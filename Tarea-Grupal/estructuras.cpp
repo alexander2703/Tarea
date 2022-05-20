@@ -25,7 +25,8 @@ struct atencion{
     string nombreCliente;
     string apellidosCliente;
     int dni;
-    string fecha;
+    string sexo;
+    string consulta;
 };
 
 struct nodoAtencion{
@@ -46,6 +47,16 @@ struct producto{
     double precio;
     string categoria;
 };
+struct product{
+    string nombre;
+    string codigo;
+    double precio;
+    string categoria;
+};
+struct nodoProduct{
+    product *prodato;
+    nodoProduct *sgte;
+};
 struct nodoProducto{
     producto *dato;
     nodoProducto *sgte;
@@ -53,7 +64,7 @@ struct nodoProducto{
 
 struct pilaProductos{
     unsigned short nProd;
-    nodoProducto *cima;
+    nodoProduct *cima;
  };
 struct listaProductos{
     nodoProducto *cab;
@@ -95,6 +106,7 @@ struct centroComercial{
     listaTienda *list;
 
 };
+
 
 
 
